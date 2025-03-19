@@ -1,4 +1,7 @@
-# Custom Load Generator
+# Custom Load Generation (Nginx)
+
+### Create Nginx Deployment
+	bash nginx.sh
 
 ### Run load
 	bash load-generator.sh
