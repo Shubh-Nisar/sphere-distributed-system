@@ -152,8 +152,9 @@ void Producer::fetchAndStreamPodMetrics() {
 
             // Format the message value
             std::stringstream valueStream;
-            valueStream << timestamp << " | CPU: " << cpuPercentage << "%, Memory: " << memoryPercentage << "%";
+            valueStream << "PRODUCER | " << "LOG | " << "POD | " << timestamp << " | CPU: " << cpuPercentage << "% | Memory: " << memoryPercentage << "%";
             std::string value = valueStream.str();
+	    std::cout << value << std::endl;
 
             // Create and send Kafka record
             ProducerRecord record(topic, 
