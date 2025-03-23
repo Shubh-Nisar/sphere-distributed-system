@@ -1,11 +1,3 @@
-//
-// Created by SHUBH NISAR on 2/26/25.
-//
-
-//
-// Created by SHUBH NISAR on 2/26/25.
-//
-
 #include "consumer.h"
 #include "../Constants/constants.h"
 

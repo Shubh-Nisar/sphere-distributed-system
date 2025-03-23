@@ -1,7 +1,3 @@
-//
-// Created by SHUBH NISAR on 3/19/25.
-//
-
 #include "constants.h"
 
 namespace constants {

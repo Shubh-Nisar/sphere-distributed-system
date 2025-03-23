@@ -1,7 +1,3 @@
-//
-// Created by SHUBH NISAR on 2/26/25.
-//
-
 #ifndef CONSUMER_H
 #define CONSUMER_H
 

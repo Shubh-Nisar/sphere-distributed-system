@@ -1,7 +1,3 @@
-//
-// Created by SHUBH NISAR on 3/19/25.
-//
-
 #ifndef CONSTANTS_H
 #define CONSTANTS_H
 #include <string>
