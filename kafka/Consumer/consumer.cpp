@@ -1,64 +1,42 @@
 #include "consumer.h"
 #include "../Constants/constants.h"
+#include <iostream>
+#include <csignal>
 
-std::atomic_bool running = {true};
-
-void stopRunning(int sig) {
-    if (sig != SIGINT) return;
-
-    if (running) {
-        running = false;
-    } else {
-        // Restore the signal handler, -- to avoid stuck with this handler
-        signal(SIGINT, SIG_IGN); // NOLINT
-    }
+Consumer::Consumer(const std::string& broker, const Topic& topic, const std::string& groupId)
+    : brokers(broker), topic(topic), consumer(Properties({{"bootstrap.servers", brokers}, {"group.id", groupId}})) {
+    consumer.subscribe({topic});
 }
 
-Consumer::Consumer(const std:: string brokers, const Topic topic):
-    brokers(brokers), topic(topic){}
-
-int main()
-{
-    // Use Ctrl-C to terminate the program
-    signal(SIGINT, stopRunning);    // NOLINT
-
-    // E.g. KAFKA_BROKER_LIST: "192.168.0.1:9092,192.168.0.2:9092,192.168.0.3:9092"
-    const std::string brokers = constants::KAFKA_HOST;
-    const Topic topic = constants::KAFKA_METRICS_TOPIC;
-
-    Consumer consumer(brokers, topic);
-
-    // Prepare the configuration
-    const Properties props({{"bootstrap.servers", {brokers}}});
-
-    // Create a consumer instance
-    KafkaConsumer Consumer(props);
-
-    // Subscribe to topics
-    Consumer.subscribe({topic});
-
+void Consumer::subscribeAndPoll() {
     while (running) {
-        // Poll messages from Kafka brokers
-        auto records = Consumer.poll(std::chrono::milliseconds(100));
-
-        for (const auto& record: records) {
+        auto records = consumer.poll(std::chrono::milliseconds(100));
+        for (const auto& record : records) {
             if (!record.error()) {
-                std::cout << "Got a new message..." << std::endl;
-                std::cout << "    Topic    : " << record.topic() << std::endl;
-                std::cout << "    Partition: " << record.partition() << std::endl;
-                std::cout << "    Offset   : " << record.offset() << std::endl;
-                std::cout << "    Timestamp: " << record.timestamp().toString() << std::endl;
-                std::cout << "    Headers  : " << toString(record.headers()) << std::endl;
-                std::cout << "    Key      : " << record.key().toString() << std::endl;
-                std::cout << "    Value    : " << record.value().toString() << std::endl;
-
-
+                messages.push_back(handleMessage(record));
             } else {
-                std::cerr << record.toString() << std::endl;
+                std::cerr << "Error: " << record.error().message() << std::endl;
             }
         }
     }
+}
 
-    // No explicit close is needed, RAII will take care of it
-    Consumer.close();
+void Consumer::stop() {
+    running = false;
+    consumer.close();
+}
+
+std::vector<std::map<std::string, std::string>> Consumer::collectMessages() {
+    return messages;  // Return and potentially clear the internal vector if needed
+}
+
+std::map<std::string, std::string> Consumer::handleMessage(const ConsumerRecord& record) {
+    std::map<std::string, std::string> messageDetails;
+    messageDetails["Topic"] = record.topic();
+    messageDetails["Partition"] = std::to_string(record.partition());
+    messageDetails["Offset"] = std::to_string(record.offset());
+    messageDetails["Timestamp"] = record.timestamp().toString();
+    messageDetails["Key"] = record.key().toString();
+    messageDetails["Value"] = record.value().toString();
+    return messageDetails;
 }

@@ -15,7 +15,7 @@ link_directories(
     "/usr/local/lib"
 )
 
-add_executable(consumer consumer.cpp
+add_library(consumer consumer.cpp
     consumer.h)
 
 add_library(constants ../Constants/constants.cpp ../Constants/constants.h)

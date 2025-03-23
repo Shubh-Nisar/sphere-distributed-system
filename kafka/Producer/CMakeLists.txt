@@ -15,7 +15,7 @@ link_directories(
     "/usr/local/lib"
 )
 
-add_executable(producer producer.cpp
+add_library(producer producer.cpp
     producer.h)
 
 add_library(constants ../Constants/constants.cpp ../Constants/constants.h)
