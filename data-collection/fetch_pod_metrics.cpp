@@ -1,3 +1,5 @@
+#include "../kafka/Producer/producer.h"
+#include "../kafka/Constants/constants.h"
 #include <iostream>
 #include <fstream>
 #include <cstdlib>
@@ -77,39 +79,36 @@ long convertMemoryToKi(const std::string &memoryStr) {
     return -1; // Invalid value
 }
 
-// Function to fetch Kubernetes pod metrics and store them
-void fetchAndStorePodMetrics(const std::string &filename) {
-    int totalCPU = getTotalCPUCapacity();
-    long totalMemory = getTotalMemoryCapacity();
+// Function to fetch Kubernetes pod metrics and stream them
+void streamPodMetrics(Producer& producer, int intervalSeconds) {
+    std::string command = "kubectl top pods -n default --no-headers";
+    while (true) {
+        int totalCPU = getTotalCPUCapacity();
+        long totalMemory = getTotalMemoryCapacity();
 
-    if (totalCPU == -1 || totalMemory == -1) {
-        std::cerr << "Error: Unable to determine total CPU or memory capacity." << std::endl;
-        return;
-    }
-
-    std::string command = "kubectl top pods -n default --no-headers > temp_pod_metrics.txt";
-    system(command.c_str());
-
-    std::ifstream inputFile("temp_pod_metrics.txt");
-    std::ofstream outputFile(filename, std::ios::app); // Append mode
-
-    if (!inputFile || !outputFile) {
-        std::cerr << "Error: Unable to open file for reading/writing." << std::endl;
-        return;
-    }
-
-    std::string line;
-    std::string timestamp = getCurrentTimestamp();
-
-    while (std::getline(inputFile, line)) {
-        std::istringstream iss(line);
-        std::string podName, cpuUsage, memoryUsage;
-
-        if (!(iss >> podName >> cpuUsage >> memoryUsage)) {
+        if (totalCPU == -1 || totalMemory == -1) {
+            std::cerr << "Error: Unable to determine total CPU or memory capacity." << std::endl;
             continue;
         }
 
-        try {
+        FILE* pipe = popen(command.c_str(), "r");
+        if (!pipe) {
+            std::cerr << "Error executing command." << std::endl;
+            continue;
+        }
+
+        char buffer[256];
+        std::string timestamp = getCurrentTimestamp();
+
+        while (fgets(buffer, sizeof(buffer), pipe) != nullptr) {
+            std::string line(buffer);
+            std::istringstream iss(line);
+            std::string podName, cpuUsage, memoryUsage;
+
+            if (!(iss >> podName >> cpuUsage >> memoryUsage)) {
+                continue;
+            }
+
             // Convert CPU usage to percentage
             int cpuMilliCores = std::stoi(cpuUsage.substr(0, cpuUsage.find('m'))); // Remove 'm'
             double cpuPercentage = (cpuMilliCores / (totalCPU * 1000.0)) * 100;
@@ -118,32 +117,30 @@ void fetchAndStorePodMetrics(const std::string &filename) {
             long memoryUsedKi = convertMemoryToKi(memoryUsage);
             double memoryPercentage = (memoryUsedKi / static_cast<double>(totalMemory)) * 100;
 
-            outputFile << timestamp << " | Pod: " << podName
-                       << ", CPU: " << cpuPercentage << "%, Memory: " << memoryPercentage << "%" << std::endl;
+            // Format the message value
+            std::stringstream valueStream;
+            valueStream << "PRODUCER | " << "LOG_TIME | " << timestamp << " | Pod: " << podName
+                        << ", CPU: " << cpuPercentage << "%, Memory: " << memoryPercentage << "%";
+            std::string value = valueStream.str();
 
-            std::cout << "Logged: " << timestamp << " | Pod: " << podName
-                      << ", CPU: " << cpuPercentage << "%, Memory: " << memoryPercentage << "%\n";
-        } catch (...) {
-            std::cerr << "Error processing line: " << line << std::endl;
+            // Send the data
+            producer.send(podName, value);
+            std::cout << "Streaming: " << value << std::endl;
         }
+        pclose(pipe);
+
+        std::this_thread::sleep_for(std::chrono::seconds(intervalSeconds));
     }
-
-    inputFile.close();
-    outputFile.close();
-    std::remove("temp_pod_metrics.txt");
-
-    std::cout << "Pod metrics appended to " << filename << std::endl;
 }
 
 int main() {
-    std::string filename = "pod_metrics.txt";
-    int interval = 10; // Time interval in seconds
+    const std::string brokers = constants::KAFKA_HOST;
+    const Topic topic = constants::KAFKA_METRICS_TOPIC;
 
-    std::cout << "Fetching Kubernetes pod metrics every " << interval << " seconds. Press Ctrl+C to stop.\n";
+    Producer producer(brokers, topic);
 
-    while (true) {
-        fetchAndStorePodMetrics(filename);
-        std::this_thread::sleep_for(std::chrono::seconds(interval));
-    }
+    int intervalSeconds = 10;  // Streaming interval
+    streamPodMetrics(producer, intervalSeconds);
+
     return 0;
 }
