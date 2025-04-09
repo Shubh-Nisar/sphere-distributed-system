@@ -19,7 +19,7 @@ std::string getCurrentTimestamp() {
 
 // Function to get total CPU capacity of the node
 int getTotalCPUCapacity() {
-    std::string command = "kubectl get nodes --no-headers -o custom-columns=\":status.capacity.cpu\" > temp_cpu_capacity.txt";
+    std::string command = "kubectl get nodes -n sock-shop --no-headers -o custom-columns=\":status.capacity.cpu\" > temp_cpu_capacity.txt";
     system(command.c_str());
 
     std::ifstream inputFile("temp_cpu_capacity.txt");
@@ -41,7 +41,7 @@ int getTotalCPUCapacity() {
 
 // Function to get total memory capacity of the node in Ki
 long getTotalMemoryCapacity() {
-    std::string command = "kubectl get nodes --no-headers -o custom-columns=\":status.capacity.memory\" > temp_memory_capacity.txt";
+    std::string command = "kubectl get nodes -n sock-shop --no-headers -o custom-columns=\":status.capacity.memory\" > temp_memory_capacity.txt";
     system(command.c_str());
 
     std::ifstream inputFile("temp_memory_capacity.txt");
@@ -81,7 +81,7 @@ long convertMemoryToKi(const std::string &memoryStr) {
 
 // Function to fetch Kubernetes pod metrics and stream them
 void streamPodMetrics(Producer& producer, int intervalSeconds) {
-    std::string command = "kubectl top pods -n default --no-headers";
+    std::string command = "kubectl top pods -n sock-shop --no-headers --selector=name=front-end";
     while (true) {
         int totalCPU = getTotalCPUCapacity();
         long totalMemory = getTotalMemoryCapacity();
