@@ -1,0 +1,17 @@
+version: '3.8'
+
+services:
+  python-app:
+    build:
+      context: .
+      dockerfile: Dockerfile  # Path to your Python Dockerfile
+    volumes:
+      - ./ml_data.log:/app/ml_data.log  # Mount the log file to the container
+    ports:
+      - "8501:8501"  # Expose port if you have a web interface
+    networks:
+      - mynetwork
+
+networks:
+  mynetwork:
+    driver: bridge
