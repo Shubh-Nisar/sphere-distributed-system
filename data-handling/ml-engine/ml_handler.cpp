@@ -59,13 +59,19 @@ int main() {
     const Topic topic = constants::KAFKA_METRICS_TOPIC;
     const std::string groupId = "ml_group";
 
+    // Prepare the configuration using the PropertiesMap explicitly
     kafka::Properties::PropertiesMap configMap;
-    configMap["bootstrap.servers"] = std::string{brokers};
-    configMap["group.id"] = std::string{groupId};
-    configMap["auto.offset.reset"] = std::string{"latest"};
+    configMap["bootstrap.servers"] = std::string(brokers); // Convert to std::string explicitly
+    configMap["group.id"] = std::string(groupId); // Convert to std::string explicitly
+    configMap["auto.offset.reset"] = std::string("latest"); // Convert to std::string explicitly
 
+    // Create a properties object from the map
     kafka::Properties props(configMap);
+
+    // Create a consumer instance
     KafkaConsumer consumer(props);
+
+    // Subscribe to the topic
     consumer.subscribe({topic});
 
     // Use an explicit path for the log file (here in the current directory).
@@ -90,11 +96,6 @@ int main() {
         logfile << "TIMESTAMP,CPU(%),MEMORY(%)" << std::endl;
         logfile.flush();
     }
-
-    // (Optional) Write a test row to confirm file I/O.
-    logfile << "TEST,TEST,TEST" << std::endl;
-    logfile.flush();
-    std::cout << "Test row written to " << LOG_FILE_PATH << std::endl;
 
     std::cout << "Listening for new messages..." << std::endl;
 
@@ -137,7 +138,7 @@ int main() {
         std::this_thread::sleep_for(std::chrono::milliseconds(100));
     }
 
-    // Cleanup (never reached in this infinite loop).
+    // Cleanup
     consumer.close();
     logfile.close();
     return 0;
