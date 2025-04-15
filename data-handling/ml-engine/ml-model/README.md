@@ -15,7 +15,6 @@ The LSTM Autoscaler:
 
 ## Prerequisites
 
-- Docker installed and running
 - Metrics consumer service running (consuming from the metrics Kafka topic)
 - Log files properly configured:
     - `ml_data.log` - Contains CPU and memory usage data
@@ -105,8 +104,3 @@ The application uses several configurable parameters:
 - The model is designed to make predictions every 10 seconds
 - The forecast horizon is approximately 2 minutes ahead (assuming data points every 10 seconds)
 - The model performs best with consistent data flow
-
-<div>⁂</div>
-
-[^1]: https://ppl-ai-file-upload.s3.amazonaws.com/web/direct-files/30930770/0253ab09-8678-4879-b321-93a7d26bc259/paste.txt
-
