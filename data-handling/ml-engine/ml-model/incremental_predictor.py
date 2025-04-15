@@ -5,7 +5,6 @@ import json
 from collections import deque
 import matplotlib.pyplot as plt
 import sys
-# from kafka import KafkaProducer
 from tensorflow.keras.models import load_model
 from tensorflow.keras.optimizers import Adam
 import tensorflow as tf
