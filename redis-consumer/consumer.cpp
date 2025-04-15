@@ -17,19 +17,6 @@
  * The consumer gracefully shuts down when receiving termination signals (SIGINT, SIGTERM).
  * The program utilizes librdkafka to interface with Kafka and sw/redis++ to interact with Redis.
  *
- * **Main functionality:**
- * - Connects to a Kafka broker and consumes messages from the specified topic.
- * - Sanitizes the payload to remove any non-printable characters.
- * - Stores sanitized data in Redis with a dynamically generated key based on the Kafka message offset.
- * - Gracefully handles program termination and ensures proper cleanup.
- *
- * **Dependencies:**
- * - librdkafka (for Kafka communication)
- * - sw/redis++ (for Redis communication)
- * 
- * **Usage:**
- * - Configure Kafka broker address and Redis connection parameters.
- * - Run the program to start consuming messages and storing them in Redis.
  */
 
 volatile sig_atomic_t run = 1;  // Global flag for graceful termination
