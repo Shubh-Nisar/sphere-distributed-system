@@ -14,12 +14,12 @@ from locust import HttpUser, task, between, LoadTestShape, events
 class CustomLoadShape(LoadTestShape):
     stages = [
         {"duration": 250, "users": 125, "spawn_rate": 0.5},     # Initial warm-up phase
-        {"duration": 250, "users": 250, "spawn_rate": 0.5},   # Morning traffic ramp-up
-        {"duration": 291, "users": 425, "spawn_rate": 0.6},   # Mid-day peak
-        {"duration": 250, "users": 275, "spawn_rate": 0.6},    # Post-lunch dip
-        {"duration": 300, "users": 500, "spawn_rate": 0.75},   # Afternoon traffic surge
-        {"duration": 563, "users": 700, "spawn_rate": 0.55},   # Evening peak (maximum load)
-        {"duration": 350, "users": 350, "spawn_rate": 1.0},   # Early evening decline
+        {"duration": 250, "users": 5580, "spawn_rate": 0.5},   # Morning traffic ramp-up
+        {"duration": 291, "users": 6295, "spawn_rate": 0.75},   # Mid-day peak
+        {"duration": 250, "users": 7795, "spawn_rate": 0.6},    # Post-lunch dip
+        {"duration": 300, "users": 7000, "spawn_rate": 0.75},   # Afternoon traffic surge
+        {"duration": 563, "users": 19900, "spawn_rate": 0.95},   # Evening peak (maximum load)
+        {"duration": 350, "users": 250, "spawn_rate": 1.0},   # Early evening decline
         {"duration": 250, "users": 250, "spawn_rate": 0.4},    # Night traffic
         {"duration": 250, "users": 100, "spawn_rate": 0.6},     # Cool down period
     ]
