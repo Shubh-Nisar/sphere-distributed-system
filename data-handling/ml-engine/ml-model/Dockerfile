@@ -7,7 +7,6 @@ WORKDIR /app
 # Copy only the necessary Python files into the container
 COPY incremental_predictor.py /app
 COPY lstm_autoscaler.h5 /app
-COPY lstm_autoscaler.keras /app
 COPY requirements.txt /app
 
 # Install Python dependencies
