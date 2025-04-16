@@ -1,2 +1,4 @@
 data-collection/pod_metrics.txt
 data-generation/front-end-metrics.log
+data-handling/ml-engine/ml_data.log
+data-handling/ml-engine/ml_predictions.log
