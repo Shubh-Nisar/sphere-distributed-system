@@ -1,5 +1,5 @@
-#include "../../kafka/Consumer/consumer.h"
-#include "../../kafka/Constants/constants.h"
+#include "../../../kafka/Consumer/consumer.h"
+#include "../../../kafka/Constants/constants.h"
 #include <iostream>
 #include <fstream>
 #include <chrono>
@@ -75,7 +75,7 @@ int main() {
     consumer.subscribe({topic});
 
     // Use an explicit path for the log file (here in the current directory).
-    const std::string LOG_FILE_PATH = "../ml_data.log";
+    const std::string LOG_FILE_PATH = "../../ml_data.log";
 
     // Check if the file exists.
     bool fileExists = false;

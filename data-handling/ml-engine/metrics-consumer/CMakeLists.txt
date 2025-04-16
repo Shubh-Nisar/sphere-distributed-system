@@ -6,7 +6,7 @@ set(CMAKE_CXX_STANDARD 17)
 include_directories(
     "/usr/local/include"  
     "/usr/include"
-    "../../kafka/modern-cpp-kafka/include/"
+    "../../../kafka/modern-cpp-kafka/include/"
 )
 
 link_directories(
@@ -14,11 +14,11 @@ link_directories(
     "/usr/lib" 
 )
 
-add_library(constants ../../kafka/Constants/constants.cpp ../../kafka/Constants/constants.h)
+add_library(constants ../../../kafka/Constants/constants.cpp ../../../kafka/Constants/constants.h)
 
 add_library(consumer
-    ../../kafka/Consumer/consumer.cpp 
-    ../../kafka/Consumer/consumer.h
+    ../../../kafka/Consumer/consumer.cpp 
+    ../../../kafka/Consumer/consumer.h
 )
 
 add_executable(ml_handler ml_handler.cpp)
