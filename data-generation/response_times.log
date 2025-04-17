@@ -1,0 +1,35 @@
+Load Test Started: 2025-04-17 19:28:33.677946
+
+2025-04-17 19:28:43 - Avg Response: 5.42ms | 95th Percentile: 8ms | Users: 14
+2025-04-17 19:28:53 - Avg Response: 5.22ms | 95th Percentile: 10ms | Users: 27
+2025-04-17 19:29:03 - Avg Response: 5.59ms | 95th Percentile: 11ms | Users: 40
+2025-04-17 19:29:13 - Avg Response: 5.49ms | 95th Percentile: 11ms | Users: 54
+2025-04-17 19:29:23 - Avg Response: 5.65ms | 95th Percentile: 11ms | Users: 67
+2025-04-17 19:29:33 - Avg Response: 5.58ms | 95th Percentile: 12ms | Users: 80
+2025-04-17 19:29:43 - Avg Response: 5.54ms | 95th Percentile: 12ms | Users: 94
+2025-04-17 19:29:53 - Avg Response: 5.61ms | 95th Percentile: 12ms | Users: 107
+2025-04-17 19:30:03 - Avg Response: 5.75ms | 95th Percentile: 13ms | Users: 120
+2025-04-17 19:30:13 - Avg Response: 5.84ms | 95th Percentile: 14ms | Users: 133
+2025-04-17 19:30:23 - Avg Response: 5.83ms | 95th Percentile: 14ms | Users: 147
+2025-04-17 19:30:33 - Avg Response: 5.85ms | 95th Percentile: 14ms | Users: 160
+2025-04-17 19:30:43 - Avg Response: 6.38ms | 95th Percentile: 17ms | Users: 173
+2025-04-17 19:30:53 - Avg Response: 6.35ms | 95th Percentile: 17ms | Users: 187
+2025-04-17 19:31:03 - Avg Response: 6.36ms | 95th Percentile: 17ms | Users: 200
+2025-04-17 19:31:13 - Avg Response: 6.28ms | 95th Percentile: 17ms | Users: 210
+2025-04-17 19:31:23 - Avg Response: 6.24ms | 95th Percentile: 16ms | Users: 220
+2025-04-17 19:31:33 - Avg Response: 6.24ms | 95th Percentile: 16ms | Users: 230
+2025-04-17 19:31:43 - Avg Response: 6.3ms | 95th Percentile: 17ms | Users: 240
+2025-04-17 19:31:53 - Avg Response: 6.3ms | 95th Percentile: 17ms | Users: 250
+2025-04-17 19:32:03 - Avg Response: 6.41ms | 95th Percentile: 17ms | Users: 260
+2025-04-17 19:32:13 - Avg Response: 6.4ms | 95th Percentile: 17ms | Users: 270
+2025-04-17 19:32:23 - Avg Response: 6.4ms | 95th Percentile: 17ms | Users: 280
+2025-04-17 19:32:33 - Avg Response: 6.47ms | 95th Percentile: 18ms | Users: 290
+2025-04-17 19:32:43 - Avg Response: 6.56ms | 95th Percentile: 18ms | Users: 300
+2025-04-17 19:32:53 - Avg Response: 6.62ms | 95th Percentile: 18ms | Users: 310
+2025-04-17 19:33:03 - Avg Response: 6.68ms | 95th Percentile: 18ms | Users: 320
+2025-04-17 19:33:13 - Avg Response: 6.65ms | 95th Percentile: 18ms | Users: 330
+2025-04-17 19:33:23 - Avg Response: 6.58ms | 95th Percentile: 18ms | Users: 340
+2025-04-17 19:33:33 - Avg Response: 6.49ms | 95th Percentile: 18ms | Users: 350
+2025-04-17 19:33:43 - Avg Response: 6.55ms | 95th Percentile: 18ms | Users: 365
+2025-04-17 19:33:53 - Avg Response: 6.5ms | 95th Percentile: 18ms | Users: 380
+2025-04-17 19:34:03 - Avg Response: 6.47ms | 95th Percentile: 18ms | Users: 395
